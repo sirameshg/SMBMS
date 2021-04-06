@@ -10,8 +10,7 @@ from [smbms静态资源.rar下载-CSDN论坛](https://bbs.csdn.net/topics/399066
 
 In order to run this program:
 
-1. build the database. Use smbms.sql file to build it. Make sure your MySQL is on (my version is 8.0.23). Then connect
-   to it.
+1. build the database. Use smbms.sql file to build it. Make sure your MySQL driver is on (my version is 8.0.23).
 2. Connect it to Tomcat (my version is 9.0.44) so program is able to run Servlet.
 
 Start Time: 4/4/2021 02:49

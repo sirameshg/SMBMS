@@ -23,6 +23,14 @@
         <servlet-name>logoutServlet</servlet-name>
         <url-pattern>/jsp/logout.do</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>userServlet</servlet-name>
+        <servlet-class>com.jin.servlet.user.UserServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>userServlet</servlet-name>
+        <url-pattern>/jsp/user.do</url-pattern>
+    </servlet-mapping>
 
     <!--字符编码过滤器-->
     <filter>

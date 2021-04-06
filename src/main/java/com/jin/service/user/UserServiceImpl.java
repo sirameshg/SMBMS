@@ -33,4 +33,23 @@ public class UserServiceImpl implements UserService {
         }
         return user;
     }
+
+    @Override
+    public boolean updatePwd(int id, String pwd) {
+//        System.out.println("UserServlet:"+pwd);
+        Connection connection = null;
+        boolean flag = false;
+        //修改密码
+        try {
+            connection = BaseDao.getConnection();
+            if (userDao.updatePwd(connection, id, pwd) > 0) {
+                flag = true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            BaseDao.closeResource(connection, null, null);
+        }
+        return flag;
+    }
 }
