@@ -2,11 +2,13 @@ package com.jin.dao.user;
 
 import com.jin.dao.BaseDao;
 import com.jin.pojo.User;
+import com.mysql.cj.util.StringUtils;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class UserDaoImpl implements UserDao {
     //得到要登录的用户
@@ -56,5 +58,39 @@ public class UserDaoImpl implements UserDao {
             BaseDao.closeResource(null, pstm, null);
         }
         return execute;
+    }
+
+    //根据用户名或者角色查询用户总数【最难】
+    @Override
+    public int getUserCount(Connection connection, String username, int userRole) throws SQLException {
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        int count = 0;
+
+        if (connection != null) {
+            StringBuffer sql = new StringBuffer();
+            sql.append("select count(1) count from smbms_user u, smbms_role r where u.userRole = r.id");
+            ArrayList<Object> list = new ArrayList<>(); //存放我们的参数
+
+            if (!StringUtils.isNullOrEmpty(username)) {
+                sql.append(" and u.userName like ?");
+                list.add("%" + username + "%"); //index:0
+            }
+            if (userRole > 0) {
+                sql.append(" and u.userRole = ?");
+                list.add(userRole); //index:1
+            }
+            //怎么把list转换为数组
+            Object[] params = list.toArray();
+
+            System.out.println("UserDaoImpl->getUserCount:" + sql.toString()); //输出最后完整的SQL语句
+            rs = BaseDao.execute(connection, pstm, rs, sql.toString(), params);
+
+            if (rs.next()) {
+                count = rs.getInt("count"); //从结果集中获取最终的数量
+            }
+            BaseDao.closeResource(null, pstm, rs);
+        }
+        return count;
     }
 }

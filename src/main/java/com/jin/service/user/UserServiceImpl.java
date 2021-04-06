@@ -52,4 +52,21 @@ public class UserServiceImpl implements UserService {
         }
         return flag;
     }
+
+    //查询记录数
+    @Override
+    public int getUserCount(String username, int userRole) {
+        Connection connection = null;
+        int count = 0;
+        try {
+            connection = BaseDao.getConnection();
+            count = userDao.getUserCount(connection, username, userRole);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            BaseDao.closeResource(connection, null, null);
+        }
+        return count;
+    }
+
 }

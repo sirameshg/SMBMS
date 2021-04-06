@@ -51,9 +51,13 @@
         <url-pattern>/jsp/*</url-pattern>
     </filter-mapping>
 
-
     <!--设置欢迎界面-->
     <welcome-file-list>
         <welcome-file>login.jsp</welcome-file>
     </welcome-file-list>
+
+    <!--默认session过期时间: 真实业务需求-->
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
 </web-app>
