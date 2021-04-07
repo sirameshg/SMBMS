@@ -1,6 +1,7 @@
 package com.jin.dao.user;
 
 import com.jin.dao.BaseDao;
+import com.jin.pojo.Role;
 import com.jin.pojo.User;
 import com.mysql.cj.util.StringUtils;
 import org.junit.Test;
@@ -142,5 +143,6 @@ public class UserDaoImpl implements UserDao {
         }
         return userList;
     }
+
 
 }

@@ -1,5 +1,6 @@
 package com.jin.dao.user;
 
+import com.jin.pojo.Role;
 import com.jin.pojo.User;
 
 import java.sql.Connection;
@@ -18,4 +19,5 @@ public interface UserDao {
 
     //通过条件查询用户列表
     public List<User> getUserList(Connection connection, String userName, int userRole, int currentPageNo, int pageSize) throws SQLException;
+
 }
