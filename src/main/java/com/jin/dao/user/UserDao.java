@@ -16,6 +16,6 @@ public interface UserDao {
     //根据用户名或者角色查询用户总数
     public int getUserCount(Connection connection, String username, int userRole) throws SQLException;
 
-//    //通过条件查询用户列表
-//    public List<User> getUserList(Connection connection, String userName, int userRole, int currentPageNo, int pageSize)  throws SQLException;
+    //通过条件查询用户列表
+    public List<User> getUserList(Connection connection, String userName, int userRole, int currentPageNo, int pageSize) throws SQLException;
 }

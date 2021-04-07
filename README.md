@@ -53,6 +53,8 @@ The Login Page
 
 ![frame](images/frame.jpg)
 
-The Frame
+The Home Page
+
+## Duration
 
 Start Time: 4/4/2021 02:49

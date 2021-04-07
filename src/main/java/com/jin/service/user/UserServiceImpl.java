@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 public class UserServiceImpl implements UserService {
     //业务层都会调dao层，所以我们要引入dao层；
@@ -68,5 +69,31 @@ public class UserServiceImpl implements UserService {
         }
         return count;
     }
+
+    //查询用户列表
+    @Override
+    public List<User> getUserList(String queryUsername, int queryUserRole, int currentPageNo, int pageSize) {
+        Connection connection = null;
+        List<User> userList = null;
+
+        try {
+            connection = BaseDao.getConnection();
+            userList = userDao.getUserList(connection, queryUsername, queryUserRole, currentPageNo, pageSize);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            BaseDao.closeResource(connection, null, null);
+        }
+        return userList;
+    }
+
+//    @Test
+//    public void test() {
+//        UserService userService = new UserServiceImpl();
+//        int count = userService.getUserCount(null,0);
+//        List<User> userList = userService.getUserList(null, 0, 1, 5);
+//        System.out.println(count);
+//        System.out.println(userList);
+//    }
 
 }
