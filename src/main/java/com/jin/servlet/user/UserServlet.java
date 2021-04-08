@@ -1,10 +1,14 @@
 package com.jin.servlet.user;
 
 import com.alibaba.fastjson.JSONArray;
+import com.jin.pojo.Role;
 import com.jin.pojo.User;
+import com.jin.service.role.RoleService;
+import com.jin.service.role.RoleServiceImpl;
 import com.jin.service.user.UserService;
 import com.jin.service.user.UserServiceImpl;
 import com.jin.util.Constants;
+import com.jin.util.PageSupport;
 import com.mysql.cj.util.StringUtils;
 
 import javax.servlet.ServletException;
@@ -13,8 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.Writer;
 import java.util.HashMap;
+import java.util.List;
 
 //实现Servlet复用
 public class UserServlet extends HttpServlet {
@@ -26,12 +30,79 @@ public class UserServlet extends HttpServlet {
             this.updatePwd(req, resp);
         } else if (method != null && method.equals("pwdmodify")) {
             this.pwdModify(req, resp);
+        } else if (method != null && method.equals("query")) {
+            this.query(req, resp);
         }
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         doGet(req, resp);
+    }
+
+    //重难点
+    public void query(HttpServletRequest req, HttpServletResponse resp) {
+        //查询用户列表
+        //从前端获取数据
+        String queryUsername = req.getParameter("queryname");
+        String tempRole = req.getParameter("queryUserRole");
+        String pageIndex = req.getParameter("pageIndex");
+        int queryUserRole = 0;
+
+        //获取用户列表
+        UserServiceImpl userService = new UserServiceImpl();
+        List<User> userList = null;
+
+        //第一次走这个请求，一定是第一页，页面大小是固定的
+        int pageSize = 5; //可以把这些写到配置文件中，方便后期修改
+        int currentPageNo = 1;
+
+        if (queryUsername == null) {
+            queryUsername = "";
+        }
+        if (tempRole != null && !tempRole.equals("")) {
+            queryUserRole = Integer.parseInt(tempRole); //给查询赋值！0，1，2，3
+        }
+        if (pageIndex != null) {
+            currentPageNo = Integer.parseInt(pageIndex);
+        }
+
+        //获取用户的总数 (分页： 上一页，下一页的情况）
+        int totalCount = userService.getUserCount(queryUsername, queryUserRole);
+        //总页数支持
+        PageSupport pageSupport = new PageSupport();
+        pageSupport.setCurrentPageNo(currentPageNo);
+        pageSupport.setPageSize(pageSize);
+        pageSupport.setTotalCount(totalCount);
+
+        int totalPageCount = pageSupport.getTotalPageCount();
+        //控制首页和尾页
+        //如果页面要小于1，就显示第一页的东西
+        if (currentPageNo < 1) {
+            currentPageNo = 1;
+        } else if (currentPageNo > totalPageCount) { //当前页面大于
+            currentPageNo = totalPageCount;
+        }
+
+        //获取用户列表提示
+        userList = userService.getUserList(queryUsername, queryUserRole, currentPageNo, pageSize);
+        req.setAttribute("userList", userList);
+        RoleService roleService = new RoleServiceImpl();
+        List<Role> roleList = roleService.getRoleList();
+        req.setAttribute("roleList", roleList);
+        req.setAttribute("totalCount", totalCount);
+        req.setAttribute("currentPageNo", currentPageNo);
+        req.setAttribute("totalPageCount", totalPageCount);
+        req.setAttribute("queryUsrName", queryUsername);
+        req.setAttribute("queryUserRole", queryUserRole);
+
+        //返回前端
+        try {
+            req.getRequestDispatcher("userlist.jsp").forward(req, resp);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     //修改密码

@@ -27,8 +27,8 @@ public class RoleServiceImpl implements RoleService {
         try {
             connection = BaseDao.getConnection();
             roleList = roleDao.getRoleList(connection);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         } finally {
             BaseDao.closeResource(connection, null, null);
         }
@@ -44,3 +44,4 @@ public class RoleServiceImpl implements RoleService {
 //        }
 //    }
 }
+

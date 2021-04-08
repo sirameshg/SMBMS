@@ -17,7 +17,15 @@ public class User {
     private int modifyBy;
     private Date modifyDate;
 
+    private Integer age;
     private String userRoleName;
+
+    public Integer getAge() {
+        Date date = new Date();
+        @SuppressWarnings("deprecation")
+        Integer age = date.getYear() - birthday.getYear();
+        return age;
+    }
 
     public String getUserRoleName() {
         return userRoleName;

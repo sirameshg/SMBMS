@@ -47,13 +47,21 @@ In order to run this program:
 
 ## Display
 
-<img src="images/login.jpg" alt="1" style="zoom:50%;" />
+<img src="images/login.jpg" alt="1" style="zoom:40%;" />
 
 The Login Page
 
-![frame](images/frame.jpg)
+<img src="images/frame.jpg" alt="frame" style="zoom:40%;" />
 
 The Home Page
+
+<img src="images/pwdUpdate.jpg" alt="pwdUpdate" style="zoom:40%;" />
+
+Password Modification
+
+<img src="images/userManagement.jpg" alt="userManagement" style="zoom:50%;" />
+
+User Management
 
 ## Duration
 
