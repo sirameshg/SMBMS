@@ -8,6 +8,12 @@ The web static resources, including css, js, images, calendar, jsp under webapp 
 from [smbms静态资源.rar下载-CSDN论坛](https://bbs.csdn.net/topics/399066270). The entire work was based on these available
 front-end web files.
 
+This project is UNFINISHED! Functions like delete users, pages like billing management, provider management haven't been
+implemented. That's because this project was used to help me to understand the whole process of building a background
+system and it's the final result of learning JavaWeb. I left some parts undone since their process of implementation are
+repetitive and I wanted to move forward. There're lot of other necessary techniques I crave to learn, including Mybatis
+and Spring. I'll finish this project when I need to refresh this part of the knowledge.
+
 ##### Functions
 
 This program now is able to do some operations as follows:
