@@ -8,11 +8,15 @@ The web static resources, including css, js, images, calendar, jsp under webapp 
 from [smbms静态资源.rar下载-CSDN论坛](https://bbs.csdn.net/topics/399066270). The entire work was based on these available
 front-end web files.
 
+##### Functions
+
 This program now is able to do some operations as follows:
 
-* login and logout the management system
-* block unauthorized access
-* change the password
+* Login and logout the management system
+* Block unauthorized access
+* Change the password
+* Display all the user information on User Management page, support pagination
+* Search people based on their name or their role （fuzzy search)
 
 ## dependency
 
@@ -45,6 +49,8 @@ In order to run this program:
 1. build the database. Use smbms.sql file to build it. Make sure your MySQL driver is on (my version is 8.0.23).
 2. Connect it to Tomcat (my version is 9.0.44) so program is able to run Servlet.
 
+
+
 ## Display
 
 <img src="images/login.jpg" alt="1" style="zoom:40%;" />
@@ -63,6 +69,4 @@ Password Modification
 
 User Management
 
-## Duration
-
-Start Time: 4/4/2021 02:49 End Time: to be continued...
+Start Time: 4/4/2021

@@ -17,6 +17,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -32,12 +35,49 @@ public class UserServlet extends HttpServlet {
             this.pwdModify(req, resp);
         } else if (method != null && method.equals("query")) {
             this.query(req, resp);
+        } else if (method != null && method.equals("add")) {
+            this.add(req, resp);
         }
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         doGet(req, resp);
+    }
+
+    //增加用户
+    private void add(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        String userCode = req.getParameter("userCode");
+        String userName = req.getParameter("userName");
+        String userPassword = req.getParameter("userPassword");
+        String gender = req.getParameter("gender");
+        String birthday = req.getParameter("birthday");
+        String phone = req.getParameter("phone");
+        String address = req.getParameter("address");
+        String userRole = req.getParameter("userRole");
+
+        User user = new User();
+        user.setUserCode(userCode);
+        user.setUserName(userName);
+        user.setUserPassword(userPassword);
+        user.setAddress(address);
+        try {
+            user.setBirthday(new SimpleDateFormat("yyyy-MM-dd").parse(birthday));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        user.setGender(Integer.parseInt(gender));
+        user.setPhone(phone);
+        user.setUserRole(Integer.parseInt(userRole));
+        user.setCreationDate(new Date());
+        user.setCreatedBy(((User) req.getSession().getAttribute(Constants.USER_SESSION)).getId());
+
+        UserService userService = new UserServiceImpl();
+        if (userService.add(user)) {
+            resp.sendRedirect(req.getContextPath() + "/jsp/user.do?method=query");
+        } else {
+            req.getRequestDispatcher("useradd.jsp").forward(req, resp);
+        }
     }
 
     //重难点

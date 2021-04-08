@@ -4,7 +4,6 @@ import com.jin.dao.BaseDao;
 import com.jin.dao.user.UserDao;
 import com.jin.dao.user.UserDaoImpl;
 import com.jin.pojo.User;
-import org.junit.Test;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -85,6 +84,38 @@ public class UserServiceImpl implements UserService {
             BaseDao.closeResource(connection, null, null);
         }
         return userList;
+    }
+
+    //添加用户
+    @Override
+    public boolean add(User user) {
+        boolean flag = false;
+        Connection connection = null;
+        try {
+            connection = BaseDao.getConnection();
+            connection.setAutoCommit(false);//事务
+            int updateRows = userDao.add(connection, user);
+            connection.commit();
+            if (updateRows > 0) {
+                flag = true;
+                System.out.println("add success!");
+            } else {
+                System.out.println("add failed!");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            try {
+                System.out.println("rollback==================");
+                assert connection != null;
+                connection.rollback();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+        } finally {
+            BaseDao.closeResource(connection, null, null);
+        }
+        return flag;
     }
 
 //    @Test
